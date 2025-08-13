@@ -7,17 +7,20 @@
 
 import SwiftUI
 
-
-
-
 struct MainView: View {
     @State var selectedTab: MenuTab = .home
     
-    
     var body: some View {
         ZStack {
-            VStack {
-                Spacer()
+            VStack(spacing: 0) {
+                switch selectedTab {
+                case .home:
+                    HomeView()
+                case .favorite:
+                    FavoriteView()
+                case .setting:
+                    SettingView()
+                }
                 
                 TabBarView(menuTabs: MenuTab.allCases, selectedTab: selectedTab) { selectedTab in
                     self.selectedTab = selectedTab
