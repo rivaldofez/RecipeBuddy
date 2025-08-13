@@ -10,13 +10,25 @@ import SwiftUI
 struct FavoriteView: View {
     var body: some View {
         ZStack {
-            Text("Favorite View")
+            ScrollView {
+                VStack(spacing: 16) {
+                    ForEach(0..<20) { item in
+                        CardRecipeView()
+                            .padding(.horizontal, 16)
+                    }
+                }
+                .padding(.vertical, 16)
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.red)
+        .background(Color.clrPrimaryBackground)
+        .ignoresSafeArea(edges: .bottom)
+        .navigationTitle("Favorites")
     }
 }
 
 #Preview {
-    FavoriteView()
+    NavigationView {
+        FavoriteView()
+    }
 }
