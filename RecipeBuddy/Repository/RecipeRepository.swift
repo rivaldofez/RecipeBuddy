@@ -11,6 +11,10 @@ protocol RecipeRepositoryProtocol {
     func getRecipes(sortByTimeAscending: Bool, filterTags: [String], isFavorite: Bool?) async -> [RecipeModel]
     func getRecipe(id: String) async -> RecipeModel?
     func updateFavoriteRecipe(for id: String, isFavorite: Bool) async -> Bool
+    
+    func getMealPlan(date: String) async -> MealPlanModel?
+    func insertMealPlan(mealPlan: MealPlanModel) async -> Void
+    
 }
 
 struct RecipeRepository: RecipeRepositoryProtocol {
@@ -57,4 +61,11 @@ struct RecipeRepository: RecipeRepositoryProtocol {
         return try? await local.fetchRecipe(for: id)
     }
     
+    func getMealPlan(date: String) async -> MealPlanModel? {
+        return try? await local.fetchMealPlan(for: date)
+    }
+    
+    func insertMealPlan(mealPlan: MealPlanModel) async {
+        try? local.inserMealPlan(mealPlan)
+    }
 }
