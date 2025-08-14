@@ -5,6 +5,10 @@
         <attribute name="quantity" optional="YES" attributeType="String"/>
         <relationship name="recipe" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RecipeEntity"/>
     </entity>
+    <entity name="MealPlanEntity" representedClassName="MealPlanEntity" syncable="YES" codeGenerationType="class">
+        <attribute name="date" optional="YES" attributeType="String"/>
+        <attribute name="idRecipes" optional="YES" attributeType="String"/>
+    </entity>
     <entity name="RecipeEntity" representedClassName="RecipeEntity" syncable="YES" codeGenerationType="class">
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="image" optional="YES" attributeType="String"/>
