@@ -22,6 +22,8 @@ struct NavigationHeaderView: View {
                     .frame(width: 24, height: 24)
                     .tint(.clrDarkest)
             }
+            .accessibilityLabel("Navigation Back")
+            .accessibilityHint("Back to previous screen")
             
             Spacer()
             

@@ -42,6 +42,7 @@ struct DetailRecipeView: View {
                             .foregroundStyle(.white)
                             .clipShape(Capsule())
                     }
+                    .accessibilityLabel("Retry the process")
                 }
                 .padding()
             } else if let recipe = viewModel.recipe {
@@ -117,6 +118,7 @@ struct DetailRecipeView: View {
                 } label: {
                     Image(systemName: viewModel.recipe?.isFavorite == true ? "bookmark.fill" : "bookmark")
                 }
+                .accessibilityLabel("Add or remove from bookmark favorite")
             }
         }
     }

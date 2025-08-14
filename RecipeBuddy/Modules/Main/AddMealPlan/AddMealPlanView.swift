@@ -77,6 +77,7 @@ struct AddMealPlanView: View {
                 } label: {
                     Image(systemName: "checkmark")
                 }
+                .accessibilityLabel("Save and update current data")
             }
         }
     }

@@ -41,6 +41,7 @@ struct HomeView: View {
                             .foregroundStyle(.white)
                             .clipShape(Capsule())
                     }
+                    .accessibilityLabel("Retry the process")
                 }
                 .padding()
             } else {
@@ -86,7 +87,7 @@ struct HomeView: View {
                                     .frame(width: 30, height: 30)
                                     .foregroundStyle(Color.clrPrimaryAccent)
                             }
-                            
+                            .accessibilityLabel("Change sort option either ascending or descending")
                             
                         }
                         .padding(.horizontal, 16)

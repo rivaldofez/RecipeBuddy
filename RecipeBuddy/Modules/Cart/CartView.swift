@@ -35,6 +35,8 @@ struct CartView: View {
                 } label: {
                     Image(systemName: "square.and.arrow.up")
                 }
+                .accessibilityLabel("Share to external context app")
+                .accessibilityHint("Create list ingredients that can opened with another application")
             }
         }
         .sheet(isPresented: $showingShare) {
