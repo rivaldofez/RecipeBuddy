@@ -49,7 +49,30 @@ struct HomeView: View {
                     VStack(spacing: 16) {
                         SearchFieldView(searchText: $viewModel.searchQuery, placeholderText: "Search recipe")
                             .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .padding(16)
+                            .padding(.horizontal, 16)
+                        
+                        ScrollView(.horizontal, showsIndicators: false) {
+                            HStack(spacing: 4) {
+                                ForEach(viewModel.tags, id: \.self) { tag in
+                                    let isSelected = viewModel.checkTagIsSelected(tag: tag)
+                                    
+                                    Button {
+                                        viewModel.toggleSelectedTag(tag: tag)
+                                        Task {
+                                            await viewModel.load()
+                                        }
+                                    } label: {
+                                        ChipView(
+                                            title: tag.capitalized,
+                                            backgroundColor: isSelected ? Color.clrPrimaryAccent :  Color.clrBlush,
+                                            textColor: isSelected ? Color.white : Color.clrDarkest,
+                                            textSize: 16
+                                        )
+                                    }
+                                }
+                            }
+                            .padding(.horizontal, 16)
+                        }
 
                         Text("Read Recipes")
                             .font(.plusJakartaBold(size: 16))

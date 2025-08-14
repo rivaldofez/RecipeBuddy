@@ -13,6 +13,8 @@ final class HomeViewModel: ObservableObject {
     @Published var searchQuery: String = ""
     @Published var isLoading = false
     @Published var errorMessage: String?
+    @Published var selectedTags: [String] = []
+    @Published var tags: [String] = []
     
     private let repository: RecipeRepositoryProtocol
     
@@ -32,11 +34,29 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        let data = await repository.getRecipes(sortByTimeAscending: false, filterTags: [], isFavorite: nil)
+        let data = await repository.getRecipes(sortByTimeAscending: false, filterTags: selectedTags, isFavorite: nil)
         if data.isEmpty {
             errorMessage = "No data available"
+        } else {
+            errorMessage = nil
         }
+    
         self.recipes = data
         self.isLoading = false
+        if tags.isEmpty {
+            self.tags = Array(Set(recipes.flatMap { $0.tags }).prefix(5))
+        }
+    }
+    
+    func toggleSelectedTag(tag: String) {
+        if checkTagIsSelected(tag: tag) {
+            selectedTags.removeAll(where: { $0 == tag })
+        } else {
+            selectedTags.append(tag)
+        }
+    }
+    
+    func checkTagIsSelected(tag: String) -> Bool {
+        return selectedTags.contains(where: { $0 == tag })
     }
 }

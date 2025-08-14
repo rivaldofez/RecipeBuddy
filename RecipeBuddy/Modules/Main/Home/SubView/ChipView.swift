@@ -9,9 +9,16 @@ import SwiftUI
 
 struct ChipView: View {
     let title: String
-    let backgroundColor: Color = .clrPrimaryAccent
-    let textColor: Color = .white
-    let textSize: CGFloat = 14
+    let backgroundColor: Color
+    let textColor: Color
+    let textSize: CGFloat
+    
+    init(title: String, backgroundColor: Color = .clrPrimaryAccent, textColor: Color = .white, textSize: CGFloat = 12) {
+        self.title = title
+        self.backgroundColor = backgroundColor
+        self.textColor = textColor
+        self.textSize = textSize
+    }
     
     var body: some View {
         Text(title)
