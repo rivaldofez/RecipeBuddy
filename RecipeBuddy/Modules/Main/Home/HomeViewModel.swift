@@ -15,6 +15,7 @@ final class HomeViewModel: ObservableObject {
     @Published var errorMessage: String?
     @Published var selectedTags: [String] = []
     @Published var tags: [String] = []
+    @Published var isAscending: Bool = false
     
     private let repository: RecipeRepositoryProtocol
     
@@ -34,7 +35,7 @@ final class HomeViewModel: ObservableObject {
         isLoading = true
         errorMessage = nil
         
-        let data = await repository.getRecipes(sortByTimeAscending: false, filterTags: selectedTags, isFavorite: nil)
+        let data = await repository.getRecipes(sortByTimeAscending: isAscending, filterTags: selectedTags, isFavorite: nil)
         if data.isEmpty {
             errorMessage = "No data available"
         } else {
