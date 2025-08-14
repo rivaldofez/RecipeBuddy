@@ -15,4 +15,22 @@ extension String {
         formatter.timeZone = TimeZone.current
         return formatter.date(from: self)
     }
+    
+    func quantityToDouble() -> Double? {
+        let quantity = self
+        let trimmed = quantity.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        if trimmed.contains("/") {
+            let parts = trimmed.split(separator: "/").map { String($0) }
+            if parts.count == 2,
+               let numerator = Double(parts[0]),
+               let denominator = Double(parts[1]),
+               denominator != 0 {
+                return numerator / denominator
+            }
+            return nil
+        }
+
+        return Double(trimmed)
+    }
 }

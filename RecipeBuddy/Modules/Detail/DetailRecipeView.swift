@@ -78,7 +78,7 @@ struct DetailRecipeView: View {
                         
                         VStack(spacing: 16) {
                             ForEach(recipe.ingredients, id: \.self) { ingredient in
-                                ItemIngredientView(title: ingredient.name)
+                                ItemIngredientView(title: ingredient.name, quantity: ingredient.quantity)
                                     .padding(.horizontal, 24)
                             }
                             

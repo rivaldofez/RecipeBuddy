@@ -13,6 +13,7 @@ final class MealPlanViewModel: ObservableObject {
     @Published var currentDay: Date = Date()
     @Published var currentSelectedRecipes: [String] = []
     @Published var currentMealPlanRecipes: [RecipeModel] = []
+    @Published var currentIngredients: [IngredientModel] = []
     @Published var recipes: [RecipeModel] = []
     
     
@@ -38,6 +39,7 @@ final class MealPlanViewModel: ObservableObject {
         let selectedRecipes = await repository.getMealPlan(date: date)
         self.currentSelectedRecipes = selectedRecipes?.idRecipes.components(separatedBy: ",") ?? []
         self.currentMealPlanRecipes = recipes.filter({ currentSelectedRecipes.contains($0.id) })
+        calculateIngredients(from: currentMealPlanRecipes)
         
         if currentMealPlanRecipes.isEmpty {
             errorMessage = "You don't have meal plan here, sure you can add it by yourself"
@@ -72,5 +74,23 @@ final class MealPlanViewModel: ObservableObject {
     func isToday(date: Date) -> Bool {
         let calendar = Calendar.current
         return calendar.isDate(currentDay, inSameDayAs: date)
+    }
+    
+    func calculateIngredients(from recipes: [RecipeModel]) {
+        var ingredientDict: [String: Any] = [:]
+        
+        for recipe in recipes {
+            for ingredient in recipe.ingredients {
+                if let quantity = ingredient.quantity.quantityToDouble() {
+                    ingredientDict[ingredient.name, default: 0] = ((ingredientDict[ingredient.name] as? Double) ?? 0) + quantity
+                } else {
+                    ingredientDict[ingredient.name] = ingredient.quantity
+                }
+            }
+        }
+        
+        self.currentIngredients = ingredientDict.map { name, value in
+            IngredientModel(name: name, quantity: "\(value)")
+        }
     }
 }

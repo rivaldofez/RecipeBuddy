@@ -92,7 +92,11 @@ struct MealPlanView: View {
         .ignoresSafeArea(edges: .bottom)
         .navigationTitle("Meal Plan")
         .toolbar {
-            ToolbarItem(placement: .primaryAction) {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                NavigationLink(value: viewModel.currentIngredients) {
+                    Image(systemName: "cart")
+                }
+                
                 NavigationLink(value: viewModel.currentDay) {
                     Image(systemName: "plus")
                 }
@@ -103,6 +107,9 @@ struct MealPlanView: View {
         }
         .navigationDestination(for: RecipeModel.self) { recipe in
             DetailRecipeView(recipeId: recipe.id)
+        }
+        .navigationDestination(for: [IngredientModel].self) { ingredients in
+            CartView(ingredients: ingredients)
         }
     }
 }
