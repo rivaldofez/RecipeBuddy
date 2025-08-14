@@ -18,8 +18,8 @@ struct MainView: View {
                     HomeView()
                 case .favorite:
                     FavoriteView()
-                case .setting:
-                    SettingView()
+                case .mealPlan:
+                    MealPlanView()
                 }
                 
                 TabBarView(menuTabs: MenuTab.allCases, selectedTab: selectedTab) { selectedTab in

@@ -6,6 +6,10 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		7ECCF5462E4D03D900DD8880 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 7ECCF5452E4D03D900DD8880 /* Kingfisher */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		7EF34C9D2E4BA1C900C9B3B9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -65,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7ECCF5462E4D03D900DD8880 /* Kingfisher in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +130,7 @@
 			);
 			name = RecipeBuddy;
 			packageProductDependencies = (
+				7ECCF5452E4D03D900DD8880 /* Kingfisher */,
 			);
 			productName = RecipeBuddy;
 			productReference = 7EF34C8F2E4BA1C700C9B3B9 /* RecipeBuddy.app */;
@@ -208,6 +214,9 @@
 			);
 			mainGroup = 7EF34C862E4BA1C700C9B3B9;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				7ECCF5442E4D03D900DD8880 /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7EF34C902E4BA1C700C9B3B9 /* Products */;
 			projectDirPath = "";
@@ -575,6 +584,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		7ECCF5442E4D03D900DD8880 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 8.5.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		7ECCF5452E4D03D900DD8880 /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7ECCF5442E4D03D900DD8880 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 7EF34C872E4BA1C700C9B3B9 /* Project object */;
 }

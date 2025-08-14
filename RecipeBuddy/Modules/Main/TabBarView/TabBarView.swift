@@ -10,7 +10,7 @@ import SwiftUI
 enum MenuTab: Equatable, CaseIterable, Identifiable {
     case home
     case favorite
-    case setting
+    case mealPlan
     
     var id: Int {
         switch self{
@@ -18,7 +18,7 @@ enum MenuTab: Equatable, CaseIterable, Identifiable {
             return 0
         case .favorite:
             return 1
-        case .setting:
+        case .mealPlan:
             return 2
         }
     }
@@ -30,7 +30,7 @@ enum MenuTab: Equatable, CaseIterable, Identifiable {
             return "ic_home_filled"
         case .favorite:
             return "ic_bookmark_filled"
-        case .setting:
+        case .mealPlan:
             return "ic_setting_filled"
         }
     }
@@ -42,7 +42,7 @@ enum MenuTab: Equatable, CaseIterable, Identifiable {
             return "ic_home_unfilled"
         case .favorite:
             return "ic_bookmark_unfilled"
-        case .setting:
+        case .mealPlan:
             return "ic_setting_unfilled"
         }
     }
@@ -54,8 +54,8 @@ enum MenuTab: Equatable, CaseIterable, Identifiable {
             return "Home"
         case .favorite:
             return "Favorite"
-        case .setting:
-            return "Setting"
+        case .mealPlan:
+            return "Meal Plan"
         }
     }
     
