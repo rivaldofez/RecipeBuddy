@@ -8,13 +8,18 @@
 import SwiftUI
 
 struct ItemIngredientView: View {
+    @State private var isChecked: Bool = false
     var title: String
     
     var body: some View {
         HStack(alignment: .top, spacing: 8) {
-            RoundedRectangle(cornerRadius: 8)
-                .frame(width: 20, height: 20)
-                .foregroundStyle(Color.clrPrimaryAccent)
+            Button {
+                isChecked.toggle()
+            } label: {
+                Image(systemName: isChecked ? "checkmark.square.fill" : "square")
+                    .frame(width: 20, height: 20)
+                    .foregroundStyle(Color.clrPrimaryAccent)
+            }
             
             Text(title)
                 .font(.plusJakartaRegular(size: 16))
