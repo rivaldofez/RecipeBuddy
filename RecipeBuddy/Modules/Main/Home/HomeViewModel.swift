@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+import Foundation
+import Combine
+
 @MainActor
 final class HomeViewModel: ObservableObject {
     @Published var recipes: [RecipeModel] = []
@@ -17,17 +20,36 @@ final class HomeViewModel: ObservableObject {
     @Published var tags: [String] = []
     @Published var isAscending: Bool = false
     
+    @Published private(set) var filteredRecipes: [RecipeModel] = []
+    
     private let repository: RecipeRepositoryProtocol
+    private var cancellables = Set<AnyCancellable>()
     
     init(repository: RecipeRepositoryProtocol = RecipeRepository()) {
         self.repository = repository
+        setupSearchDebounce()
     }
     
-    var filteredRecipes: [RecipeModel] {
-        guard !searchQuery.isEmpty else { return recipes }
-        return recipes.filter {
-            $0.title.localizedCaseInsensitiveContains(searchQuery) ||
-            $0.ingredients.contains(where: { $0.name.lowercased().contains(searchQuery.lowercased()) })
+    private func setupSearchDebounce() {
+        Publishers.CombineLatest3($searchQuery, $selectedTags, $isAscending)
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .removeDuplicates { lhs, rhs in
+                lhs.0 == rhs.0 && lhs.1 == rhs.1 && lhs.2 == rhs.2
+            }
+            .sink { [weak self] search, _, _ in
+                self?.applySearch(query: search)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func applySearch(query: String) {
+        guard !query.isEmpty else {
+            filteredRecipes = recipes
+            return
+        }
+        filteredRecipes = recipes.filter {
+            $0.title.localizedCaseInsensitiveContains(query) ||
+            $0.ingredients.contains(where: { $0.name.lowercased().contains(query.lowercased()) })
         }
     }
     
@@ -43,7 +65,10 @@ final class HomeViewModel: ObservableObject {
         }
     
         self.recipes = data
+        self.filteredRecipes = data
+        
         self.isLoading = false
+        
         if tags.isEmpty {
             self.tags = Array(Set(recipes.flatMap { $0.tags }).prefix(5))
         }

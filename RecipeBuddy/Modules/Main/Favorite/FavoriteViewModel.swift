@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import Combine
 
 @MainActor
 final class FavoriteViewModel: ObservableObject {
@@ -15,16 +16,33 @@ final class FavoriteViewModel: ObservableObject {
     @Published var errorMessage: String?
     
     private let repository: RecipeRepositoryProtocol
+    private var cancellables = Set<AnyCancellable>()
+    
+    @Published private(set) var filteredRecipes: [RecipeModel] = []
     
     init(repository: RecipeRepositoryProtocol = RecipeRepository()) {
         self.repository = repository
+        setupSearchDebounce()
     }
     
-    var filteredRecipes: [RecipeModel] {
-        guard !searchQuery.isEmpty else { return recipes }
-        return recipes.filter {
-            $0.title.localizedCaseInsensitiveContains(searchQuery) ||
-            $0.ingredients.contains(where: { $0.name.lowercased().contains(searchQuery.lowercased()) })
+    private func setupSearchDebounce() {
+        $searchQuery
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] query in
+                self?.applySearch(query: query)
+            }
+            .store(in: &cancellables)
+    }
+    
+    private func applySearch(query: String) {
+        guard !query.isEmpty else {
+            filteredRecipes = recipes
+            return
+        }
+        filteredRecipes = recipes.filter {
+            $0.title.localizedCaseInsensitiveContains(query) ||
+            $0.ingredients.contains(where: { $0.name.lowercased().contains(query.lowercased()) })
         }
     }
     
@@ -37,6 +55,7 @@ final class FavoriteViewModel: ObservableObject {
             errorMessage = "Oops, you don't have any favorite recipes yet!"
         }
         self.recipes = data
+        self.filteredRecipes = data
         self.isLoading = false
     }
 }
