@@ -12,7 +12,8 @@ protocol LocalDataSourceProtocol {
     func fetchRecipe(for id: String) async throws -> RecipeModel?
     func insertIfNotExists(_ recipes: [RecipeModel]) throws
     func updateFavoriteRecipe(for id: String, isFavorite: Bool) async throws -> Bool
-    
+    func fetchMealPlan(for date: String) async throws -> MealPlanModel?
+    func inserMealPlan(_ mealPlan: MealPlanModel) throws
 }
 
 final class LocalDataSource: LocalDataSourceProtocol {
@@ -155,6 +156,39 @@ final class LocalDataSource: LocalDataSourceProtocol {
             }
 
             try context.save()
+        }
+    }
+    
+    func inserMealPlan(_ mealPlan: MealPlanModel) throws {
+        try context.performAndWait {
+            let request: NSFetchRequest<MealPlanEntity> = MealPlanEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "date == %@", mealPlan.date)
+
+            let existing = try context.fetch(request)
+            let entity: MealPlanEntity
+            if let first = existing.first {
+                entity = first
+            } else {
+                entity = MealPlanEntity(context: context)
+            }
+
+            entity.idRecipes = mealPlan.idRecipes
+            entity.date = mealPlan.date
+        
+            try context.save()
+        }
+    }
+    
+    func fetchMealPlan(for date: String) async throws -> MealPlanModel? {
+        try await context.perform {
+            let request: NSFetchRequest<MealPlanEntity> = MealPlanEntity.fetchRequest()
+            request.predicate = NSPredicate(format: "date == %@", date)
+            request.fetchLimit = 1
+            let results = try self.context.fetch(request)
+            
+            return results.first.map { entity in
+                MealPlanModel(date: entity.date ?? "", idRecipes: entity.idRecipes ?? "")
+            }
         }
     }
 }
