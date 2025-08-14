@@ -8,7 +8,7 @@
 import SwiftUI
 
 @MainActor
-final class RecipesViewModel: ObservableObject {
+final class HomeViewModel: ObservableObject {
     @Published var recipes: [RecipeModel] = []
     @Published var searchQuery: String = ""
     @Published var isLoading = false

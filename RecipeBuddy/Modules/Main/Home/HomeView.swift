@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
-    @StateObject private var viewModel = RecipesViewModel()
+    @StateObject private var viewModel = HomeViewModel()
     @State private var isNavigationActive: Bool = false
 
     var body: some View {
