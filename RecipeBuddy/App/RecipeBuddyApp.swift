@@ -15,6 +15,7 @@ struct RecipeBuddyApp: App {
                 MainView()
             }
             .tint(.clrPrimaryAccent)
+            .preferredColorScheme(.light)
         }
     }
 }
